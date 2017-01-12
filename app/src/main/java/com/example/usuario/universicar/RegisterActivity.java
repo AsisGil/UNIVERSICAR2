@@ -60,12 +60,22 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    //-----------------------------------------
+    private EditText usuario;
+    private EditText rep_password;
+    private EditText telefono;
+    private EditText coche;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         // Set up the login form.
+        usuario = (EditText) findViewById(R.id.usuario);
+        rep_password = (EditText) findViewById(R.id.rep_password);
+        telefono = (EditText) findViewById(R.id.telefono);
+        coche = (EditText) findViewById(R.id.coche);
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
