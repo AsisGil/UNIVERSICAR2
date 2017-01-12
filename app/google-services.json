@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_number": "149442563958",
+    "firebase_url": "https://universicar.firebaseio.com",
+    "project_id": "universicar",
+    "storage_bucket": "universicar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149442563958:android:fd371551169fefe1",
+        "android_client_info": {
+          //"package_name": "com.example.daniel.aplicacionlogin"
+          "package_name": "com.example.usuario.universicar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "149442563958-7j12f1khhmtgtttlv2p0iu0014gbiikn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFsP1n4BTxswXjgWSiU1FVDnxi1gBhr94"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

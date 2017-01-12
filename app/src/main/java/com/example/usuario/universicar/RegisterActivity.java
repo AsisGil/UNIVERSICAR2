@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,9 +28,19 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -61,10 +72,14 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private View mProgressView;
     private View mLoginFormView;
     //-----------------------------------------
+    FirebaseAuth aut= FirebaseAuth.getInstance();
     private EditText usuario;
     private EditText rep_password;
     private EditText telefono;
     private EditText coche;
+    private String EMAIL = "administrador@hotmail.com";
+    private String PWD = "administrador";
+    Button mEmailSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,7 +116,63 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        //---------------------------
+        cargaAutorizacion();
+
     }
+
+    protected void cargaAutorizacion() {
+        aut.signInWithEmailAndPassword(EMAIL, PWD)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("LISTENER", "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                        //setContentView(R.layout.activity_main);
+                        cargarVistas();
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(RegisterActivity.this, "Fallo de autenticacion",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+
+
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+    protected void cargarVistas() {
+        mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String usuario_string = usuario.getText().toString();
+                String email_string = mEmailView.getText().toString();
+                String password_string = mPasswordView.getText().toString();
+                String rep_password_string = rep_password.getText().toString();
+                String telefono_string = telefono.getText().toString();
+                String coche_string = coche.getText().toString();
+                Usuario c = new Usuario(usuario_string, email_string, password_string, rep_password_string, telefono_string, coche_string);
+                insertarUsuario(c);
+            }
+        });
+    }
+        private void insertarUsuario(Usuario c)
+        {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("usuarios");
+            String key = myRef.child("usuario").push().getKey();
+            Map m=new HashMap<>();
+            m.put(key,c);
+            myRef.updateChildren(m);
+
+        }
+
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -136,6 +207,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     /**
      * Callback received when a permissions request has been completed.
      */
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -152,6 +224,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
+
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -355,7 +428,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             showProgress(false);
         }
     }
-
+/*
     public void onBackPressed() {
         abrirLogin();
 
@@ -366,5 +439,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
     }
+    */
 }
 
