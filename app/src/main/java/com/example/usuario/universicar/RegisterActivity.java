@@ -169,8 +169,17 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             Map m=new HashMap<>();
             m.put(key,c);
             myRef.updateChildren(m);
-
+            limpiarTexto();
         }
+
+    private void limpiarTexto(){
+        usuario.setText("");
+        mEmailView.setText("");
+        mPasswordView.setText("");
+        rep_password.setText("");
+        telefono.setText("");
+        coche.setText("");
+    }
 
 
 

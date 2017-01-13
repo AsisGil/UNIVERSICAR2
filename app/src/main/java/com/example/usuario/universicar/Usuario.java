@@ -7,10 +7,10 @@ package com.example.usuario.universicar;
 public class Usuario {
 private String usuario_string, email_string, password_string, rep_password_string, telefono_string, coche_string;
 
-    public Usuario(String usuario_string, String password_string, String email_string, String rep_password_string, String telefono_string, String coche_string) {
+    public Usuario(String usuario_string, String email_string, String password_string, String rep_password_string, String telefono_string, String coche_string) {
         this.usuario_string = usuario_string;
-        this.password_string = password_string;
         this.email_string = email_string;
+        this.password_string = password_string;
         this.rep_password_string = rep_password_string;
         this.telefono_string = telefono_string;
         this.coche_string = coche_string;
