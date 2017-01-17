@@ -29,8 +29,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -89,7 +97,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                hacerLogIn();
+                //attemptLogin();
+
             }
         });
 
@@ -366,6 +376,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+    }
+    private void hacerLogIn() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("usuarios");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable i = dataSnapshot.getChildren();
+                Iterator<DataSnapshot> iterador = i.iterator();
+                String usuario =mEmailView.getText().toString();
+                String contrasena=mPasswordView.getText().toString();
+                while (iterador.hasNext()) {
+                    Usuario p = iterador.next().getValue(Usuario.class);
+                    if (p.getEmail_string().equals(usuario) && p.getPassword_string().equals(contrasena)) {
+                        Toast.makeText(LoginActivity.this, "CONCORDANCIA USUARIO",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 }
 
