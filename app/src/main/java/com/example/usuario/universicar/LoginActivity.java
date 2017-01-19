@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     Button btnregistrar;
     Vibrator vib;
+    //esta rama mola
 
     /**
      * Id to identity READ_CONTACTS permission request.
