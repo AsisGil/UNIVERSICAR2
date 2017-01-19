@@ -156,8 +156,15 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 String rep_password_string = rep_password.getText().toString();
                 String telefono_string = telefono.getText().toString();
                 String coche_string = coche.getText().toString();
-                Usuario c = new Usuario(usuario_string, email_string, password_string, rep_password_string, telefono_string, coche_string);
-                insertarUsuario(c);
+                if(!password_string.equals(rep_password_string)){
+                    Toast.makeText(RegisterActivity.this, "LAS CONTRASEÑAS NO COINCIDEN",
+                            Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Usuario c = new Usuario(usuario_string, email_string, password_string, rep_password_string, telefono_string, coche_string);
+                    insertarUsuario(c);
+                }
+
             }
         });
     }
