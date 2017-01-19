@@ -47,7 +47,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-        Button btnregistrar;
+          Button btnregistrar;
     Vibrator vib;
 
     /**
