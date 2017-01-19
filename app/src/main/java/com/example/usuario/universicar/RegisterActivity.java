@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -13,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -80,12 +80,16 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private String EMAIL = "administrador@hotmail.com";
     private String PWD = "administrador";
     Button mEmailSignInButton;
+    Vibrator vib;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        // Set up the login form.
+
+        vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+
         usuario = (EditText) findViewById(R.id.usuario);
         rep_password = (EditText) findViewById(R.id.rep_password);
         telefono = (EditText) findViewById(R.id.telefono);
@@ -110,6 +114,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                vib.vibrate(90);
                 attemptLogin();
             }
         });

@@ -3,22 +3,21 @@ package com.example.usuario.universicar;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -49,6 +48,8 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     Button btnregistrar;
+    Vibrator vib;
+    //esta rama mola
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
+      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
@@ -77,7 +78,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
+
+        vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -97,6 +100,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                vib.vibrate(90);
                 hacerLogIn();
                 //attemptLogin();
 
@@ -116,6 +120,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         btnregistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                vib.vibrate(90);
                 abrirActivityRegistrar();
             }
         });
@@ -125,6 +130,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Intent i = new Intent(this, RegisterActivity.class);
         startActivity(i);
     }
+
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -155,10 +161,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return false;
     }
 
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    @Override
+
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_READ_CONTACTS) {
@@ -168,12 +171,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -377,23 +374,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+
     private void hacerLogIn() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("usuarios");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Boolean datoscorrectos = false;
                 Iterable i = dataSnapshot.getChildren();
                 Iterator<DataSnapshot> iterador = i.iterator();
-                String usuario =mEmailView.getText().toString();
-                String contrasena=mPasswordView.getText().toString();
+                String usuario = mEmailView.getText().toString();
+                String contrasena = mPasswordView.getText().toString();
                 while (iterador.hasNext()) {
-                    Usuario p = iterador.next().getValue(Usuario.class);
-                    if (p.getEmail_string().equals(usuario) && p.getPassword_string().equals(contrasena)) {
-                        Toast.makeText(LoginActivity.this, "CONCORDANCIA USUARIO",
-                                Toast.LENGTH_SHORT).show();
+                        Usuario p = iterador.next().getValue(Usuario.class);
+                        if (p.getEmail_string().equals(usuario) && p.getPassword_string().equals(contrasena)) {
+                            datoscorrectos = true;
                     }
                 }
+                if(datoscorrectos == true){
+                    Toast.makeText(LoginActivity.this, "CONCORDANCIA USUARIO",
+                            Toast.LENGTH_SHORT).show();
+                    abrirMainActivity();
+                }
+                else{
+                    Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrectos",
+                            Toast.LENGTH_SHORT).show();
+
+                }
+
             }
 
             @Override
@@ -403,6 +412,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
 
+    }
+
+    private void abrirMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 }
 
