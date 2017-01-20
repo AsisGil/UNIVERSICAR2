@@ -90,15 +90,15 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
 
-        usuario = (EditText) findViewById(R.id.usuario);
-        rep_password = (EditText) findViewById(R.id.rep_password);
-        telefono = (EditText) findViewById(R.id.telefono);
+        usuario = (AutoCompleteTextView) findViewById(R.id.usuario);
+        rep_password = (AutoCompleteTextView) findViewById(R.id.rep_password);
+        telefono = (AutoCompleteTextView) findViewById(R.id.telefono);
         coche = (EditText) findViewById(R.id.coche);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = (AutoCompleteTextView) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -185,8 +185,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         telefono.setText("");
         coche.setText("");
     }
-
-
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
