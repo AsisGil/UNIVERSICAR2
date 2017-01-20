@@ -111,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         });
 
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 vib.vibrate(90);
