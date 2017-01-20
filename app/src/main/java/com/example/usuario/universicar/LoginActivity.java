@@ -56,19 +56,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-      * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
+
     private UserLoginTask mAuthTask = null;
 
-    // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -388,14 +381,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String contrasena = mPasswordView.getText().toString();
                 while (iterador.hasNext()) {
                         Usuario p = iterador.next().getValue(Usuario.class);
-                        if (p.getEmail_string().equals(usuario) && p.getPassword_string().equals(contrasena)) {
+                        if (p.getEmail_string().equals(usuario) && p.getPassword_string().equals(contrasena))
                             datoscorrectos = true;
-                    }
                 }
                 if(datoscorrectos == true){
-                    Toast.makeText(LoginActivity.this, "CONCORDANCIA USUARIO",
-                            Toast.LENGTH_SHORT).show();
-                    abrirMainActivity();
+                     abrirMainActivity();
                 }
                 else{
                     Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrectos",
