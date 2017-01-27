@@ -76,7 +76,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password (repeat)"
-                    android:id="@+id/rep_password" />
+                    android:id="@+id/rep_password"
+                    android:singleLine="false"
+                    android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -90,16 +92,11 @@
                     android:id="@+id/telefono" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <CheckBox
+                android:text="¿Tienes coche?"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Coche (si tienes...)"
-                    android:id="@+id/coche" />
-            </android.support.design.widget.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBoxCoche" />
 
             <Button
                 android:id="@+id/email_sign_in_button"

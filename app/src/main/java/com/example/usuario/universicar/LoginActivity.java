@@ -46,7 +46,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-
+    Usuario user;
     Button btnregistrar;
     Vibrator vib;
     //esta rama mola
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-      * A dummy authentication store containing known user names and passwords.
+     * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
@@ -387,17 +387,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String usuario = mEmailView.getText().toString();
                 String contrasena = mPasswordView.getText().toString();
                 while (iterador.hasNext()) {
-                        Usuario p = iterador.next().getValue(Usuario.class);
-                        if (p.getEmail_string().equals(usuario) && p.getPassword_string().equals(contrasena)) {
-                            datoscorrectos = true;
+                    Usuario p = iterador.next().getValue(Usuario.class);
+                    if (p.getEmail_string().equals(usuario) && p.getPassword_string().equals(contrasena)) {
+                        datoscorrectos = true;
+                        user = p;
                     }
                 }
-                if(datoscorrectos == true){
+                if (datoscorrectos == true) {
                     Toast.makeText(LoginActivity.this, "CONCORDANCIA USUARIO",
                             Toast.LENGTH_SHORT).show();
                     abrirMainActivity();
-                }
-                else{
+                } else {
                     Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrectos",
                             Toast.LENGTH_SHORT).show();
 
@@ -417,6 +417,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void abrirMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+    }
+
+    public Usuario getUsuarioLogIn() {
+        return user;
     }
 }
 
