@@ -170,7 +170,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("usuarios");
-            String key = myRef.child("usuario").push().getKey();
+            String key = c.getEmail_string();
+                    //myRef.child("usuario").push().getKey();
             Map m=new HashMap<>();
             m.put(key,c);
             myRef.updateChildren(m);
