@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,16 +30,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -66,6 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private TextView login_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
 
         vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        login_title = (TextView) findViewById(R.id.login_title);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -104,7 +108,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
         btnregistrar = (Button) findViewById(R.id.btnregistrar);
 
+        fuente();
+
+
         listeners();
+    }
+
+    private void fuente() {
+         String carpetaFuente = "fonts/Fine College.ttf";
+
+        Typeface fuente = Typeface.createFromAsset(getAssets(), carpetaFuente);
+
+        login_title.setTypeface(fuente);
     }
 
 
@@ -369,17 +384,61 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void hacerLogIn() {
+
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("usuarios");
+
+        final DatabaseReference ref = database.getReference("usuarios");
+        String usuario = mEmailView.getText().toString();
+
+        Query query = ref.orderByChild("usuario_string").equalTo(usuario);
+
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+              Iterable<DataSnapshot> i= dataSnapshot.getChildren();
+                Log.v("onChildAdded",   dataSnapshot.getKey());
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Boolean datoscorrectos = false;
-                Iterable i = dataSnapshot.getChildren();
-                Iterator<DataSnapshot> iterador = i.iterator();
-                String usuario = mEmailView.getText().toString();
+                // Boolean datoscorrectos = false;
+                //  Iterable i = dataSnapshot.getChildren();
+                //  Iterator<DataSnapshot> iterador = i.iterator();
+
+
                 String contrasena = mPasswordView.getText().toString();
-                while (iterador.hasNext()) {
+
+
+
+
+              //  ref.orderByChild(usuario).equalTo("usuario_string");
+
+
+
+              /*  while (iterador.hasNext()) {
                         Usuario p = iterador.next().getValue(Usuario.class);
                         if (p.getEmail_string().equals(usuario) && p.getPassword_string().equals(contrasena))
                             datoscorrectos = true;
@@ -392,7 +451,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             Toast.LENGTH_SHORT).show();
 
                 }
-
+*/
             }
 
             @Override
@@ -402,11 +461,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
 
-    }
+            }
 
-    private void abrirMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-    }
-}
+
+
+            private void abrirMainActivity() {
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            }
+        }
+
 

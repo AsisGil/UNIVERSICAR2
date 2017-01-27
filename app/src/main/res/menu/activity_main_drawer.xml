@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navrealizarbusqueda"
+            android:icon="@drawable/lupa"
+            android:title="Buscar coche" />
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navnoticias"
+            android:icon="@drawable/viaje"
+            android:title="Publicar Viaje" />
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navfavoritosehistorial"
+            android:icon="@drawable/historial"
+            android:title="Favoritos e Historial" />
+    </group>
+
+
+ <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navcomocuidarelplaneta"
+            android:icon="@drawable/ahorrar"
+            android:title="Como ahorrar conduciendo" />
+    </group>
+
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Compartir App" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Compartir Dato" />
+        </menu>
+    </item>
+
+
+
+</menu>
