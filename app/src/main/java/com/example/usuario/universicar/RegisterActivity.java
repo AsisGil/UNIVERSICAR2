@@ -179,7 +179,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 Iterable i = dataSnapshot.getChildren();
                 Iterator<DataSnapshot> iterador = i.iterator();
                 lista_usus.clear();
-
                 if (iterador.hasNext()) {
                     Toast.makeText(getApplicationContext(), "Error usuario repetido",
                             Toast.LENGTH_SHORT).show();
