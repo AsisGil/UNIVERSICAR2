@@ -26,6 +26,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,11 +35,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -72,15 +78,18 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private View mProgressView;
     private View mLoginFormView;
     //-----------------------------------------
-    FirebaseAuth aut= FirebaseAuth.getInstance();
+    FirebaseAuth aut = FirebaseAuth.getInstance();
     private EditText usuario;
     private EditText rep_password;
     private EditText telefono;
-    private EditText coche;
+    private CheckBox coche;
     private String EMAIL = "administrador@hotmail.com";
     private String PWD = "administrador";
-    Button mEmailSignInButton;
+    private Button mEmailSignInButton;
+    private boolean usr_rep = true;
+    private ArrayList<Usuario> lista_usus;
     Vibrator vib;
+    Usuario c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,17 +97,16 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         setContentView(R.layout.activity_register);
 
         vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-
-
-        usuario = (AutoCompleteTextView) findViewById(R.id.usuario);
-        rep_password = (AutoCompleteTextView) findViewById(R.id.rep_password);
-        telefono = (AutoCompleteTextView) findViewById(R.id.telefono);
-        coche = (EditText) findViewById(R.id.coche);
+        lista_usus = new ArrayList<>();
+        usuario = (EditText) findViewById(R.id.usuario);
+        rep_password = (EditText) findViewById(R.id.rep_password);
+        telefono = (EditText) findViewById(R.id.telefono);
+        coche = (CheckBox) findViewById(R.id.checkBoxCoche);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (AutoCompleteTextView) findViewById(R.id.password);
+        mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -111,7 +119,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         });
 
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-         mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 vib.vibrate(90);
@@ -151,6 +159,122 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 });
     }
 
+    public void confirmarCamposRegistro() {
+        comprobarRepeticionUsuario();
+
+
+
+    }
+
+    public void comprobarRepeticionUsuario() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("usuarios");
+        String usr = usuario.getText().toString();
+        Query consulta = ref.orderByChild("usuario_string").equalTo(usr);
+
+        consulta.addValueEventListener(new ValueEventListener() {
+                                           @Override
+                                           public void onDataChange(DataSnapshot dataSnapshot) {
+                                               Iterable i = dataSnapshot.getChildren();
+                                               Iterator<DataSnapshot> iterador = i.iterator();
+                                               lista_usus.clear();
+                                               if (iterador.hasNext()) {
+                                                   Toast.makeText(getApplicationContext(), "Error usuario repetido",
+                                                           Toast.LENGTH_SHORT).show();
+
+                                               } else {
+                                                   if (contraseñasIguales() && validarEmail()) {
+                                                       Toast.makeText(getApplicationContext(), "Usuario dado de alta! Bienvenido!",
+                                                               Toast.LENGTH_SHORT).show();
+                                                       insertarUsuario(c);
+                                                   }
+                                               }
+                                           }
+                                           @Override
+                                           public void onCancelled (DatabaseError databaseError){
+
+                                           }
+                                       }
+
+        );
+        /*consulta.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                //String key = dataSnapshot.getKey();
+                //en u guardamos el resultado de la consulta
+               // Usuario u = dataSnapshot.getValue(Usuario.class);
+                usr_rep=false;
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.v("noREPE", "onChildChanged");
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.v("noREPE", "onChildRemoved");
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                Log.v("noREPE", "onChildMoved");
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.v("noREPE", "onCancelled");
+            }
+        });*/
+        /*ref.addValueEventListener(new ValueEventListener() {
+                                      @Override
+                                      public void onDataChange(DataSnapshot dataSnapshot) {
+                                          Iterable i = dataSnapshot.getChildren();
+                                          Iterator<DataSnapshot> iterador = i.iterator();
+                                          lista_usus.clear();
+                                          while (iterador.hasNext()) {
+                                              Usuario p = iterador.next().getValue(Usuario.class);
+                                              lista_usus.add(p);
+                                          }
+                                      }
+                                      @Override
+                                      public void onCancelled(DatabaseError databaseError) {
+                                      }
+                                  }
+        );*/
+
+
+    }
+
+    public boolean validarEmail() {
+        String email = mEmailView.getText().toString();
+        boolean arroba = false, punto = false;
+        for (int i = 0; i < email.length(); i++) {
+            if (email.charAt(i) == '@') {
+                arroba = true;
+            } else {
+                if (email.charAt(i) == '.') {
+                    punto = true;
+                }
+            }
+
+        }
+        boolean aux = (arroba && punto);
+        if (!aux) {
+            Toast.makeText(getApplicationContext(), "El email no es válido", Toast.LENGTH_SHORT).show();
+        }
+        return aux;
+
+    }
+
+    public boolean contraseñasIguales() {
+        boolean aux = false;
+        if (mPasswordView.getText().toString().equals(rep_password.getText().toString())) {
+            aux = true;
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Las contraseñas no son iguales", Toast.LENGTH_SHORT).show();
+
+        }
+        return aux;
+    }
+
     protected void cargarVistas() {
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,32 +284,35 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 String password_string = mPasswordView.getText().toString();
                 String rep_password_string = rep_password.getText().toString();
                 String telefono_string = telefono.getText().toString();
-                String coche_string = coche.getText().toString();
-                Usuario c = new Usuario(usuario_string, email_string, password_string, rep_password_string, telefono_string, coche_string);
-                insertarUsuario(c);
+                boolean coche_boolean = coche.isChecked();
+                c = new Usuario(usuario_string, email_string, password_string, rep_password_string, telefono_string, coche_boolean);
+                confirmarCamposRegistro();
+
             }
         });
     }
-        private void insertarUsuario(Usuario c)
-        {
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("usuarios");
-            String key = c.getEmail_string();
-                    //myRef.child("usuario").push().getKey();
-            Map m=new HashMap<>();
-            m.put(key,c);
-            myRef.updateChildren(m);
-            limpiarTexto();
-        }
 
-    private void limpiarTexto(){
+    private void insertarUsuario(Usuario c) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("usuarios");
+        //esto guarda como nombre de usuario la key
+        String key = myRef.child(c.getUsuario_string()).getKey();
+        // myRef.child("usuario").push().getKey();
+        Map m = new HashMap<>();
+        m.put(key, c);
+        myRef.updateChildren(m);
+        limpiarTexto();
+    }
+
+    private void limpiarTexto() {
         usuario.setText("");
         mEmailView.setText("");
         mPasswordView.setText("");
         rep_password.setText("");
         telefono.setText("");
-        coche.setText("");
+        coche.setChecked(false);
     }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -444,14 +571,10 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 /*
     public void onBackPressed() {
         abrirLogin();
-
-
     }
-
     private void abrirLogin() {
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
     }
     */
 }
-

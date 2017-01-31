@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="¿Compartimos uni?"
-            android:textSize="20dp"
+            android:textSize="12dp"
             android:layout_marginTop="14dp"
             android:layout_below="@+id/textView332"
             android:layout_toRightOf="@+id/imageView"

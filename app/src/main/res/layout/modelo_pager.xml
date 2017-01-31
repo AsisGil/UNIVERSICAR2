@@ -8,12 +8,73 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
-        android:id="@+id/txttitulo" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/sc">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/eddestino"
+                android:hint="Destino:"
+                android:layout_below="@+id/edorigen"
+                android:layout_alignLeft="@+id/edorigen"
+                android:layout_alignStart="@+id/edorigen" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/edorigen"
+                android:hint="Origen:"
+                android:layout_below="@+id/edorigen"
+                android:layout_alignLeft="@+id/edorigen"
+                android:layout_alignStart="@+id/edorigen" />
+
+            <TextView
+                android:text="Selecciona un dia:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:fontFamily="casual"
+                android:textSize="25dp"
+                android:id="@+id/txthora" />
+
+            <CalendarView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/timePicker"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/calendario"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:text="Selecciona una hora:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView"
+                 android:fontFamily="casual"
+                android:textSize="25dp"/>
+
+            <TimePicker
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/eddestino"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="11dp"
+                android:id="@+id/timePicker"
+                android:layout_width="match_parent" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>

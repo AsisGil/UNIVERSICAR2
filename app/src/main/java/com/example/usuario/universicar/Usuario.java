@@ -5,18 +5,20 @@ package com.example.usuario.universicar;
  */
 
 public class Usuario {
-private String usuario_string, email_string, password_string, rep_password_string, telefono_string, coche_string;
+    private String usuario_string, email_string, password_string, rep_password_string, telefono_string;
+    private boolean coche;
 
-    public Usuario(String usuario_string, String email_string, String password_string, String rep_password_string, String telefono_string, String coche_string) {
+    public Usuario(String usuario_string, String email_string, String password_string, String rep_password_string, String telefono_string, boolean coche) {
         this.usuario_string = usuario_string;
         this.email_string = email_string;
         this.password_string = password_string;
         this.rep_password_string = rep_password_string;
         this.telefono_string = telefono_string;
-        this.coche_string = coche_string;
+        this.coche = coche;
     }
 
-    public Usuario(){}
+    public Usuario() {
+    }
 
     public String getUsuario_string() {
         return usuario_string;
@@ -58,11 +60,11 @@ private String usuario_string, email_string, password_string, rep_password_strin
         this.telefono_string = telefono_string;
     }
 
-    public String getCoche_string() {
-        return coche_string;
+    public boolean getCoche() {
+        return coche;
     }
 
-    public void setCoche_string(String coche_string) {
-        this.coche_string = coche_string;
+    public void setCoche(boolean coche) {
+        this.coche = coche;
     }
 }
