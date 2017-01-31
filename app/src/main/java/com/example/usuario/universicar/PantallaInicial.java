@@ -243,7 +243,7 @@ public class PantallaInicial extends ActionBarActivity {
 
                         } else {
                             if (num == 1) {
-                                abrirmain();
+                                abrirLogin();
                                 num++;
                             }
 
@@ -267,20 +267,15 @@ public class PantallaInicial extends ActionBarActivity {
 
     private void fuente() {
         String carpetaFuente = "fonts/Fine College.ttf";
-
         Typeface fuente = Typeface.createFromAsset(getAssets(), carpetaFuente);
-
         txttitulo.setTypeface(fuente);
 
 
     }
 
-
-    private void abrirmain() {
-        Intent i = new Intent(this, MainActivity.class);
-
+    private void abrirLogin() {
+        Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
-
     }
 
 

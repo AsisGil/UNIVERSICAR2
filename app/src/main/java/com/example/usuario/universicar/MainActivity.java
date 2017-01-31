@@ -1,5 +1,6 @@
 package com.example.usuario.universicar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -12,35 +13,39 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.TabHost;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private static int numerodepaginas =3;
+    private static int numerodepaginas = 2;
     Toolbar toolbar;
+    static TabHost th;
+    static ViewPager BuscarCoche, PublicarViaje, pager;
 
     Toolbar toolbarnav;
     Vibrator vib;
     static ViewFlipper vfapp;
-    private PagerAdapter mPagerAdapter;
-    static ViewPager pager;
+    private PagerAdapter mPagerAdapter, mPagerAdapter2;
     static int pag = 0;
 
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigator);
         vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vfapp = (ViewFlipper) findViewById(R.id.vfapp);
         pager = (ViewPager) findViewById(R.id.pager);
+        th = (TabHost) findViewById(R.id.th);
 
         establecerPager();
 
@@ -48,13 +53,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigator();
 
+        tabHost();
+
         listeners();
+
+    }
+
+    private void tabHost() {
+
+
+        th = (TabHost) findViewById(R.id.th);
+
+
+        th.setup();
+
+        TabHost.TabSpec Buscarcoche = th.newTabSpec("Buscar coche");
+        TabHost.TabSpec Publicarviaje = th.newTabSpec("Publicar viaje");
+
+        Buscarcoche.setIndicator("Buscar coche");
+        Publicarviaje.setIndicator("Publicar viaje");
+
+        Buscarcoche.setContent(R.id.BuscarCoche);
+        Publicarviaje.setContent(R.id.PublicarViaje);
+
+        th.addTab(Buscarcoche);
+        th.addTab(Publicarviaje);
+
 
     }
 
     private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
- toolbar.setTitle("UniversiCar");
+        toolbar.setTitle("UniversiCar");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -70,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         pager.setAdapter(mPagerAdapter);
-        MainActivity.pag++;
+
+
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
@@ -79,10 +110,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         public Fragment getItem(int position) {
-             PagerTomas.setValor(position);
-            PagerTomas p = new PagerTomas();
+            PagerMain.setValor(position);
 
-             return p;
+            PagerMain p = new PagerMain();
+
+            return p;
 
         }
 
@@ -113,6 +145,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void listeners() {
 
+        th.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                vib.vibrate(90);
+
+
+            }
+        });
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                th.setCurrentTab(position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
     private void abrirCirculo() {
@@ -122,37 +179,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void abrir(MenuItem item) {
 
-        if (item.toString().equals("Nuevo viaje")) {
+        if (item.toString().equals("Buscar coche")) {
             vib.vibrate(90);
             animacion(4);
+            th.setCurrentTab(0);
             // vfapp.setDisplayedChild(vfapp.indexOfChild(findViewById(R.id.viaje)));
         }
-        if (item.toString().equals("Favoritos e Historial")) {
+        if (item.toString().equals("Publicar Viaje")) {
             vib.vibrate(90);
+            th.setCurrentTab(1);
 
             animacion(5);
             // abrirhisyfav();
         }
-        if (item.toString().equals("")) {
+        if (item.toString().equals("Favoritos e Historial")) {
             vib.vibrate(90);
             animacion(6);
             //  abrirWeb();
+        }
+        if (item.toString().equals("Como ahorrar conduciendo")) {
+            vib.vibrate(90);
+            animacion(1);
         }
         if (item.toString().equals("Compartir App")) {
             vib.vibrate(90);
             animacion(1);
             redesSociales();
-        }
-        if (item.toString().equals("Compartir Dato")) {
-            vib.vibrate(90);
-            animacion(1);
+
             //  vfapp.setDisplayedChild(vfapp.indexOfChild(findViewById(R.id.zona)));
         }
-        if (item.toString().equals("Como ahorrar cone el coche")) {
-            vib.vibrate(90);
-            animacion(1);
-            //  vfapp.setDisplayedChild(vfapp.indexOfChild(findViewById(R.id.cuidarelplaneta)));
-        }
+
 
     }
 
@@ -242,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int ventana = vfapp.getDisplayedChild();
         switch (ventana) {
             case 0:
-                abrirPantallaInicial();
+                alertaSalir("¿Desea salir de la app?");
                 break;
           /*  case 1:
                 animacion(2);
@@ -267,6 +323,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 */
         }
     }
+
+    private void alertaSalir(String s) {
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setMessage(s);
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Salir",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.exit(0);
+                        finish();
+                    }
+                }
+        );
+        alertDialog.show();
+    }
+
 
     private void abrirPantallaInicial() {
         Intent i = new Intent(this, PantallaInicial.class);
