@@ -1,11 +1,8 @@
 package com.example.usuario.universicar;
 
-/**
- * Created by Cristian on 12/01/2017.
- */
-
 public class Usuario {
-    private String usuario_string, email_string, password_string, rep_password_string, telefono_string;
+
+    private String usuario_string, email_string, password_string, rep_password_string, telefono_string, provincia, coche_string;
     private boolean coche;
 
     public Usuario(String usuario_string, String email_string, String password_string, String rep_password_string, String telefono_string, boolean coche) {
@@ -19,6 +16,23 @@ public class Usuario {
 
     public Usuario() {
     }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getCoche_string() {
+        return coche_string;
+    }
+
+    public void setCoche_string(String coche_string) {
+        this.coche_string = coche_string;
+    }
+
 
     public String getUsuario_string() {
         return usuario_string;

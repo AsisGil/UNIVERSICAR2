@@ -9,6 +9,7 @@ import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +17,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
@@ -25,6 +27,9 @@ import java.util.TimerTask;
 
 
 public class PantallaInicial extends ActionBarActivity {
+
+
+    static AnimationDrawable animac;
 
     private Timer timer;
     private DonutProgress donutProgress;
@@ -36,6 +41,7 @@ public class PantallaInicial extends ActionBarActivity {
     private DonutProgress donutProgress7;
     private DonutProgress donutProgress8;
     private DonutProgress donutProgress9;
+    LinearLayout activity_pantallainicial;
 
 
     boolean cargado = false;
@@ -71,6 +77,10 @@ public class PantallaInicial extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantallainicial);
+
+
+        activity_pantallainicial = (LinearLayout) findViewById(R.id.pantalla);
+
         txttitulo = (TextView) findViewById(R.id.txttitulo);
 
         final Calendar c = Calendar.getInstance();
@@ -79,6 +89,7 @@ public class PantallaInicial extends ActionBarActivity {
         int ano = c.get(Calendar.YEAR);
 
         animacionTitulo();
+
 
         fuente();
 
@@ -254,9 +265,16 @@ public class PantallaInicial extends ActionBarActivity {
                 });
             }
 
-        }, 0, 4000);
+        }, 0, 3600);
+        fondoCambiante();
 
+    }
 
+    private void fondoCambiante() {
+        animac = (AnimationDrawable) activity_pantallainicial.getBackground();
+        animac.setEnterFadeDuration(2000);
+        animac.setExitFadeDuration(2000);
+        animac.start();
     }
 
     private void animacionTitulo() {
@@ -274,7 +292,7 @@ public class PantallaInicial extends ActionBarActivity {
     }
 
     private void abrirLogin() {
-        Intent i = new Intent(this, LoginActivity.class);
+        Intent i = new Intent(this, PosicionActual.class);
         startActivity(i);
     }
 

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.usuario.universicar.Email">
+
+    <ViewFlipper
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/vfapp"
+        android:layout_marginTop="55dp">
+
+        <RelativeLayout
+            android:id="@+id/rlforo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/reciclador">
+
+                <EditText
+                    android:id="@+id/edenviarforo"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:elevation="18dp"
+                    android:ems="10"
+                    android:hint="Mensaje:"
+                    android:inputType="textPersonName" />
+
+                <Button
+                    android:id="@+id/btnenviarforo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:elevation="18dp"
+                    android:background="@drawable/boton_redondo"
+                    android:text="Enviar" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/reciclador"
+                android:layout_width="match_parent"
+                android:layout_height="480dp"
+                android:layout_alignParentStart="true" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlrecibidos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerrecibidos"
+                android:layout_width="match_parent"
+                android:layout_height="650dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlescribircorreo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btnenviar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="Enviar" />
+
+            <EditText
+                android:id="@+id/eddestino"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignBottom="@+id/edasunto"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="46dp"
+                android:ems="10"
+                android:hint="Destino"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/edasunto"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="111dp"
+                android:ems="10"
+                android:hint="Asunto"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/edenviar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btnenviar"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/edasunto"
+                android:background="@color/divider"
+                android:ems="10"
+                android:inputType="textMultiLine" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlabrirmensaje"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/linea"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="#ffd5d5d5">
+
+            </View>
+
+            <TextView
+                android:id="@+id/txtfecha"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/txtasunto"
+                android:layout_marginTop="16dp"
+                android:fontFamily="casual"
+                android:text="TextView"
+                android:textSize="112dp" />
+
+            <TextView
+                android:id="@+id/txtdestinoo"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/txtdestinoo"
+                android:fontFamily="casual"
+                android:text="TextView"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtdestinoo"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="57dp"
+                android:fontFamily="casual"
+                android:text="TextView"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtasunto"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/txtdestinoo"
+                android:fontFamily="casual"
+                android:text="TextView"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txttexto"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_above="@+id/linea"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/txtfecha"
+                android:fontFamily="casual"
+                android:text="TextView"
+                android:textSize="18dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlenviados"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerenviados"
+                android:layout_width="match_parent"
+                android:layout_height="510dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+
+
+    </ViewFlipper>
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+</android.support.design.widget.CoordinatorLayout>

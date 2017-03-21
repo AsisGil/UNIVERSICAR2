@@ -8,7 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.usuario.universicar.RegisterActivity">
+    android:background="@drawable/cambiodecolores"
+    tools:context="com.example.usuario.universicar.RegisterActivity"
+    android:id="@+id/activity_register">
 
     <!-- Login progress -->
 
@@ -29,9 +31,13 @@
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Usuario"
-                    android:id="@+id/usuario" />
+                    android:hint="  Usuario"
+                    android:id="@+id/usuario"
+                    android:layout_marginTop="12dp"
+                    android:layout_height="45dp"
+                    android:textColorHint="@color/colorBlanco"
+                    android:background="@color/colorEditText"
+                    android:textColor="@color/colorBlanco"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -41,8 +47,12 @@
                 <AutoCompleteTextView
                     android:id="@+id/email"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
+                    android:layout_height="45dp"
+                    android:background="@color/colorEditText"
+                    android:textColor="@color/colorBlanco"
+                    android:layout_marginTop="12dp"
+                    android:hint="   Email"
+                    android:textColorHint="@color/colorBlanco"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -54,10 +64,14 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/edpassword"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
+                    android:layout_height="45dp"
+                    android:background="@color/colorEditText"
+                    android:textColor="@color/colorBlanco"
+                    android:textColorHint="@color/colorBlanco"
+                    android:layout_marginTop="12dp"
+                    android:hint="   Password"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
@@ -74,8 +88,12 @@
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Password (repeat)"
+                    android:layout_height="45dp"
+                    android:background="@color/colorEditText"
+                    android:textColor="@color/colorBlanco"
+                    android:hint="   Password (repeat)"
+                    android:textColorHint="@color/colorBlanco"
+                    android:layout_marginTop="12dp"
                     android:id="@+id/rep_password"
                     android:singleLine="false"
                     android:inputType="textPassword" />
@@ -87,16 +105,23 @@
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Nº Telefono"
+                    android:layout_height="45dp"
+                    android:background="@color/colorEditText"
+                    android:textColor="@color/colorBlanco"
+                    android:hint="   Phohe Number"
+                    android:layout_marginTop="12dp"
+                    android:textColorHint="@color/colorBlanco"
                     android:id="@+id/telefono" />
             </android.support.design.widget.TextInputLayout>
 
             <CheckBox
                 android:text="¿Tienes coche?"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/checkBoxCoche" />
+                android:layout_height="45dp"
+                android:background="@color/colorEditText"
+                android:textColor="@color/colorBlanco"
+                android:id="@+id/checkBoxCoche"
+                android:layout_marginTop="16dp"/>
 
             <Button
                 android:id="@+id/email_sign_in_button"
@@ -105,7 +130,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/accionregistrar"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@drawable/boton_redondoblanco"
+                android:textColor="@color/colorBlanco"/>
 
         </LinearLayout>
     </ScrollView>
